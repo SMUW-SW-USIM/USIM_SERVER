@@ -1,0 +1,8 @@
+{
+	"accessKeyId": "AKIA3HFQHDZSRCEBN442",
+	"secretAccessKey" : "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",
+	"region" : "ap-northeast-2",
+	"bucket" : "usimbucket",
+	"Expires" : "3000",
+	"operation" : "getObject"
+}
