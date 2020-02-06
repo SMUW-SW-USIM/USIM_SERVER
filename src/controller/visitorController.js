@@ -14,6 +14,7 @@ exports.visitorList = async (req, res, next) => {
 }
 
 exports.visitorCurrent = async (req, res, next) => {
+    const { v_faceId } = req.body
     try {
         const result = await visitorService.visitorCurrent(req, next)
         response.respondJson(message.VISITOR_CURRENT_INFO_SUCCESS, result, res, statusCode.OK)
