@@ -39,3 +39,13 @@ exports.visitorAppend = async (req, next) => {
     }
 }
 
+
+exports.visitorModify = async (req, next) => {
+    try {
+        const result = await visitorDao.visitorModify(Transaction, req, next)
+        return result
+    } catch (e) {
+        console.log(e.message)
+        return e.message
+    }
+}

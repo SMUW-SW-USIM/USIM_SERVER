@@ -29,3 +29,21 @@ exports.visitorAppend = (connection, req) => {
         })
     })
 }
+
+
+
+exports.visitorModify = (Transaction, req, next) => {
+    return Transaction(async (connection) => {
+        const Query1 = `SELECT v_idx FROM Visitor WHERE v_faceId="${req.body.v_faceId}"`
+        const v_idx = await connection.query(Query1)
+        const Query2 = `UPDATE Visitor 
+                SET v_name = "${req.body.v_name}",
+                v_gender = "${req.body.v_gender}",
+                v_times = "${req.body.v_times}",
+                v_age = "${req.body.v_age}"
+                WHERE v_idx=${v_idx[0].v_idx}`
+        await connection.query(Query2)
+    }).catch(error => {
+        return next(error)
+    })
+}

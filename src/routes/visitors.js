@@ -12,5 +12,7 @@ visitors.get('/list', needAuth, visitorsCtrl.visitorList)
 visitors.get('/current', needAuth, visitorsCtrl.visitorCurrent)
 // 지인 버튼 누르면 방문자 리스트 추가
 visitors.post('/list', needAuth,  visitorsCtrl.visitorAppend)
+//수정
+visitors.put('/list', needAuth,  visitorsCtrl.visitorModify)
 
 module.exports = visitors
