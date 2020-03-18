@@ -8,6 +8,6 @@ const upload = multer('records')
 
 // 녹음 리스트
 records.get('/list', needAuth, recordsCtrl.recordList)
-records.post('/list', needAuth, upload.single('records'), recordsCtrl.recordAppend)
+records.post('/list', needAuth, recordsCtrl.recordAppend)
 
 module.exports = records
