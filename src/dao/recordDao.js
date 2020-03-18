@@ -10,7 +10,6 @@ exports.recordList = (connection, req) => {
 
 exports.recordAppend = (connection, req) => {
     return new Promise((resolve, reject) => {
-        console.log(req.file)
         const Query = `INSERT INTO Record(u_idx, r_name)
                            VALUES("${req.user.u_idx}", "${req.body.r_name}")`;
         connection.query(Query, (err, result) => {
