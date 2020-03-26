@@ -34,6 +34,6 @@ const faceDetect = (imageUrl) => {
     });
 }
 
-
+// faceDetect('')
 
 module.exports = faceDetect
