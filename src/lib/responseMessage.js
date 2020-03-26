@@ -24,6 +24,7 @@ module.exports = {
     RECORD_DATA_LIST_SUCCESS: '녹음 리스트 가져오기 성공',
     VISITOR_DATA_LIST_SUCCESS: '방문자 리스트 가져오기 성공',
     VISITOR_APPEND_SUCCESS: '새로운 방문자 정보 등록 성공',
-    VISITOR_CURRENT_INFO_SUCCESS: '실시간 방문자 정보 가져오기 성공',
     VISITOR_MODIFY_SUCCESS: '방문자 정보 수정하기 성공',
+    VISITOR_DETECT_SUCCESS: '방문자 목록에 존재하는 방문자입니다.',
+    VISITOR_DETECT_FAIL: '방문자 목록에 존재하지 않는 방문자입니다.'
 }

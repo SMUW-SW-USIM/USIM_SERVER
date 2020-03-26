@@ -14,10 +14,10 @@ exports.visitorList = async (req, res, next) => {
 }
 
 exports.visitorCurrent = async (req, res, next) => {
-    const { v_faceId } = req.body
     try {
         const result = await visitorService.visitorCurrent(req, next)
-        response.respondJson(message.VISITOR_CURRENT_INFO_SUCCESS, result, res, statusCode.OK)
+        if (!result.length) response.respondJson(message.VISITOR_DETECT_FAIL, result, res, statusCode.OK)
+        else response.respondJson(message.VISITOR_DETECT_SUCCESS, result, res, statusCode.OK)
     } catch (e) {
         response.respondOnError(message.INTERNAL_SERVER_ERROR, res, statusCode.INTERNAL_SERVER_ERROR)
     }
