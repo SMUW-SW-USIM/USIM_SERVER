@@ -3,10 +3,9 @@ const request = require('request');
 const faceConfig = require('../../config/faceapi_config')
 const subscriptionKey = faceConfig.subscriptionKey;
 const uriBase = faceConfig.uriBase +'/detect';
-let jsonResponse;
 
 // Face [POST] detect
-const faceDetect = async (imageUrl) => {
+const faceDetect = (imageUrl) => {
     const params = {
         'returnFaceId': 'true',
         'returnFaceLandmarks': 'false',
@@ -27,13 +26,14 @@ const faceDetect = async (imageUrl) => {
             console.log('Error: ', error);
             return;
         }
-        jsonResponse = JSON.parse(body);
+        let jsonResponse = JSON.parse(body);
         console.log('faceID: '+ jsonResponse[0].faceId);
         console.log('gender: '+ jsonResponse[0].faceAttributes.gender);
         console.log('age: '+ jsonResponse[0].faceAttributes.age);
-
+        // return jsonResponse[0].faceId;
     });
 }
+
 
 
 module.exports = faceDetect
