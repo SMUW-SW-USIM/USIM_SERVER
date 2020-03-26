@@ -1,16 +1,16 @@
 'use strict';
 const request = require('request');
-const faceConfig = require('../config/faceapi_config')
+const faceConfig = require('../../config/faceapi_config')
 const subscriptionKey = faceConfig.subscriptionKey;
-const uriBase = faceConfig.uriBase;
+const uriBase = faceConfig.uriBase +'/detect';
+let jsonResponse;
 
-// [POST] detect
-const faceDetect = (imageUrl) => {
+// Face [POST] detect
+const faceDetect = async (imageUrl) => {
     const params = {
         'returnFaceId': 'true',
         'returnFaceLandmarks': 'false',
-        'returnFaceAttributes': 'age,gender,headPose,smile,facialHair,glasses,' +
-            'emotion,hair,makeup,occlusion,accessories,blur,exposure,noise'
+        'returnFaceAttributes': 'age,gender'
     };
 
     const options = {
@@ -22,18 +22,18 @@ const faceDetect = (imageUrl) => {
             'Ocp-Apim-Subscription-Key' : subscriptionKey
         }
     };
-
     request.post(options, (error, response, body) => {
         if (error) {
             console.log('Error: ', error);
             return;
         }
-        let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
-        console.log('JSON Response\n');
-        console.log(jsonResponse);
+        jsonResponse = JSON.parse(body);
+        console.log('faceID: '+ jsonResponse[0].faceId);
+        console.log('gender: '+ jsonResponse[0].faceAttributes.gender);
+        console.log('age: '+ jsonResponse[0].faceAttributes.age);
+
     });
 }
 
-faceDetect('https://usimbucket.s3.ap-northeast-2.amazonaws.com/visitors/ak9mpP-m1.1583904587143.jpg')
 
 module.exports = faceDetect
