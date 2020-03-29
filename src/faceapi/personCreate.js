@@ -5,8 +5,8 @@ const subscriptionKey = faceConfig.subscriptionKey;
 const uriBase = faceConfig.uriBase +'/persongroups/daeunshim/persons';
 
 //  [POST] person create
-const personCreate = (personname) => {
-
+const personCreate = async (personname) => {
+    let result = {}
     const options = {
         uri: uriBase,
         body: '{"name": ' + '"' + personname + '"}',
@@ -15,17 +15,28 @@ const personCreate = (personname) => {
             'Ocp-Apim-Subscription-Key' : subscriptionKey
         }
     };
-    request.post(options, (error, response, body) => {
-        if (error) {
-            console.log('Error: ', error);
-            return;
-        }
-        let jsonResponse = JSON.parse(body);
-        console.log('personId: '+ jsonResponse.personId); //personId 반환해야됨 -> db 저장과 personCreate의 파라미터
+    await new Promise(async (resolve, reject) => {
+        request.post(options, (error, response, body) => {
+            if (error) {
+                console.log('Error: ', error);
+                return;
+            }
+            let jsonResponse = JSON.parse(body);
+            // console.log('personId: '+ jsonResponse.personId); //personId 반환해야됨 -> db 저장과 personCreate의 파라미터
+            result = {
+                personId: jsonResponse.personId
+            }
+            if (error) {
+                reject(error)
+            }
+            resolve(result);
+        });
     });
+console.log("finally return : " + result.personId)
+return result.personId;
 }
 
-//personCreate("아이린")
+// personCreate("지창욱")
 
 
 module.exports = personCreate

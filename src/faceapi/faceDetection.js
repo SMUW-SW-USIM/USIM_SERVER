@@ -5,13 +5,14 @@ const subscriptionKey = faceConfig.subscriptionKey;
 const uriBase = faceConfig.uriBase +'/detect';
 
 // Face [POST] detect
-const faceDetect = (imageUrl) => {
+const faceDetect = async (imageUrl) => {
     const params = {
         'returnFaceId': 'true',
         'returnFaceLandmarks': 'false',
         'returnFaceAttributes': 'age,gender'
     };
 
+    let result = {}
     const options = {
         uri: uriBase,
         qs: params,
@@ -21,19 +22,26 @@ const faceDetect = (imageUrl) => {
             'Ocp-Apim-Subscription-Key' : subscriptionKey
         }
     };
-    request.post(options, (error, response, body) => {
-        if (error) {
-            console.log('Error: ', error);
-            return;
-        }
-        let jsonResponse = JSON.parse(body);
-        console.log('faceID: '+ jsonResponse[0].faceId);
-        console.log('gender: '+ jsonResponse[0].faceAttributes.gender);
-        console.log('age: '+ jsonResponse[0].faceAttributes.age);
-        // return jsonResponse[0].faceId;
+    await new Promise(async (resolve, reject) => {
+        request.post(options, async (error, response, body) => {
+            if (error) {
+                console.log('Error: ', error);
+                return;
+            }
+            let jsonResponse = await JSON.parse(body);
+            result = {
+                faceId : jsonResponse[0].faceId
+            }
+            if(error) {
+                reject(error)
+            }
+            resolve(result);
+        });
     });
+    console.log("finally return : " + result.faceId)
+    return result.faceId;
 }
 
-// faceDetect('')
+// faceDetect('url')
 
 module.exports = faceDetect

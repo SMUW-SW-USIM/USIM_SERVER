@@ -6,7 +6,7 @@ const uriBase = faceConfig.uriBase + '/identify';
 
 // Face [POST] identify
 const faceIdentify = async (faceId) => {
-
+    let result ={}
     const options = {
         uri: uriBase,
         body: '{"personGroupId": "daeunshim", "faceIds": ["' + faceId +'"]}',
@@ -15,21 +15,31 @@ const faceIdentify = async (faceId) => {
             'Ocp-Apim-Subscription-Key' : subscriptionKey
         }
     };
-
-    request.post(options, (error, response, body) => {
-        if (error) {
-            console.log('Error: ', error);
-            return;
-        }
-        // let jsonResponse = JSON.parse(body);
-        // console.log("personId"+ jsonResponse[0].candidates[0].personId);
-        let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
-        console.log('JSON Response\n');
-        console.log(jsonResponse);
+    await new Promise(async (resolve, reject) => {
+        request.post(options, (error, response, body) => {
+            if (error) {
+                console.log('Error: ', error);
+                return;
+            }
+            let jsonResponse = JSON.parse(body);
+            console.log("personId"+ jsonResponse[0].candidates[0].personId);
+            // let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
+            // console.log('JSON Response\n');
+            // console.log(jsonResponse);
+            result = {
+                personId : jsonResponse[0].candidates[0].personId
+            }
+            if(error) {
+                reject(error)
+            }
+            resolve(result);
+        });
     });
+    console.log("finally return : " + result.personId)
+    return result.personId;
 }
 
-// faceIdentify("7096cb20-3f1b-436d-90e2-a16ffce07904");
+// faceIdentify("6016728d-3fb4-4285-a81b-a3e5265bacbf");
 
 module.exports = faceIdentify
 
